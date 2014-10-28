@@ -15,7 +15,7 @@ HeaderManager::HeaderManager(int regSize)
         EndOF = buffer+1;
         movingPointer = buffer+2;
         //casted as int* for easier access in the program
-        Register = (int*)(buffer+3);
+        fullRegister = (int*)(buffer+3);
         freeRegister = (int*)(buffer+7);
         registerSize = (int*)(buffer+11);
 
@@ -24,7 +24,7 @@ HeaderManager::HeaderManager(int regSize)
         EndOF = buffer+headerSize;
         movingPointer = buffer+headerSize;
         *registerSize = 0;                         //not yet defined this is only a header template
-        *Register = 0;
+        *fullRegister = 0;
         *freeRegister = 0;
     }
 
@@ -35,9 +35,9 @@ HeaderManager::HeaderManager(int regSize)
     void HeaderManager::addRegister() {
         if (*freeRegister > 0) {
             *freeRegister-=1;
-            *Register+=1;
+            *fullRegister+=1;
         } else {
-            *Register+=1;
+            *fullRegister+=1;
             EndOF=(void*)(EndOF+*registerSize);
         }
     }
@@ -48,7 +48,7 @@ HeaderManager::HeaderManager(int regSize)
         char isEmpty = *((char*)(EndOF-*registerSize));
 
         if (isEmpty=='/o') {             //last register was deleted
-            *Register-=1;
+            *fullRegister-=1;
             EndOF=(void*)(EndOF-*registerSize-1);               //resets EOF to the last register
 
             while (isEmpty=='/o') {
@@ -56,11 +56,11 @@ HeaderManager::HeaderManager(int regSize)
                 *freeRegister-=1;                           //this reduces the amount of empty registers
             }
         } else {
-            *Register-=1;
+            *fullRegister-=1;
             *freeRegister+=1;
         }
     }
 
     int HeaderManager::totalRegister() {
-        return *(freeRegister)+*(Register);
+        return *(freeRegister)+*(fullRegister);
     }

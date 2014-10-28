@@ -6,9 +6,22 @@ class Register
 public:
     Register();
 
-    string Filename;
+    /*!
+     * \brief ColumnName is a simple list with the name of the columns
+     * This global variable helps the program traducing the strings that the user inputs into integers that are more manageable
+     */
     SimpleList ColumnName = new SimpleList ();
+
+    /*!
+     * \brief ColumnSize is a simple list with the values of the size of columns
+     * This global variable always starts on 0 and helps the program manage the movingPointer position "in the X coordinate" (Y being the registers), in order to get individual sets of data
+     */
     SimpleList ColumnSize = new SimpleList ();
+
+    /*!
+     * \brief nullChar marks a register as empty
+     * This char is especially chosen by the project to be a mark at the beggining of the register (or column) to mark it as empty, it doesn't allow the first value to be removed
+     */
     char nullChar = '/o';
 
     /*!
