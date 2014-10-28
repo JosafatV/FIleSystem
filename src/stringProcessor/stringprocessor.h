@@ -44,6 +44,14 @@ public:
 private:
 
     /*!
+     * \brief emptyVariables sets all variable empty
+     *
+     * Given that these variables are used once to complete a command and are based on the .append method,
+     * everytime you start a command you need these variables empty, so at the end of every command completion this method cleans them.
+     */
+    void emptyVariables();
+
+    /*!
      * \brief getName - gets the name of the table
      * \param description - the description after the command
      * \return the new description without the parsed info

@@ -1,9 +1,18 @@
 #include "src/dataStructures/SimpleList.h"
+#include "src/registerManager/registermanager.h"
 #include "src/stringProcessor/stringprocessor.h"
 #include <iostream>
 #include <string.h>
 #include <fstream>
 using namespace std;
+
+void emptyVariables() {
+    tableName = "";
+    values.clear();
+    columns.clear();
+    conditions.clear();
+    booperands.clear();
+}
 
 string Decriptor::getName(string description) {
 
@@ -201,6 +210,9 @@ void Decriptor::interpreter (string Line, int id) {
        description = getName(description);
        description = getColumns(false, description);
        flag = false;
+       //split columns
+       //get regSize
+       //RegisterManager.createTable(tableName, columns, values, regSize);
    }
    if (0==command.compare("SELECT")) {
        if (id == 0) {
@@ -208,6 +220,7 @@ void Decriptor::interpreter (string Line, int id) {
            tableName = description.substr(cut, description.length());
            cout << tableName << endl;
            cout << "| -> " << "all columns" << endl;
+           //set columns = tableColumns
        }
        if (id == 1) {
            description = getColumns(true, description);
@@ -223,43 +236,55 @@ void Decriptor::interpreter (string Line, int id) {
            description = getConditions(description);
            cout << tableName;
        }
+       //RegisterManager.select(tableName, columns, conditions);
        flag = false;
    }
    if (0==command.compare("INSERT INTO")) {
        description = getName(description);
-       description = getColumns(1, description);
+       description = getColumns(true, description);
        description = getValues(description);
        flag = false;
+       //RegisterManager.insertInto(tableName, columns, values);
    }
    if (0==command.compare("UPDATE")) {
        description = getName(description);
-       description = getColumns(0, description);
+       description = getColumns(true, description);
        description = getValues(description);
        description = getConditions(description);
        flag = false;
+       //RegisterManager.select(tableName, columns, conditions, booperands);
    }
    if (0==command.compare("DELETE FROM")) {
        description = getName(description);
+       description = getConditions(description);
        flag = false;
+       //RegisterManager.deleteFrom(tableName, conditions, booperands);
    }
    if (0==command.compare("CREATE INDEX ON")) {
        description = getName(description);
+       description = getColumns(true, description);
        string type = description.substr(description.find_last_of(' '), description.length());
        cout  << "| -> Of the type: " << type;
        flag = false;
+       //RegisterManager.createIndexOn(tableName, columns, type);
    }
    if (0==command.compare("COMPRESS TABLE")) {
        description = getName(description);
        flag = false;
+       //RegisterManager.compressTable(tableName)
    }
    if (0==command.compare("BACKUP TABLE")) {
        description = getName(description);
        flag = false;
+       //RegisterManager.backupTable(tableName)
    }
    if (0==command.compare("RESTORE TABLE")) {
        description = getName(description);
        flag = false;
+       //RegisterManager.restoreTable(tableName)
    } if (flag) {
        cout << Error001 << endl;
    }
+
+   emptyVariables();
 }

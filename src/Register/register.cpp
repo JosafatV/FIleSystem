@@ -35,8 +35,8 @@ char Register::getContentValue(void* Here) {
 string Register::getData(void* Here, int iColumn) {
     int beg = ColumnSize<iColumn>;
     int end = ColumnSize<iColumn+1>;
-    for (beg <= end; beg++;) {               //change to print chars until '/o'
-        cout << *( (char*)Here );
+    for (beg < end; beg++;) {
+        cout << (char*)Here;    //prints chars until '/o' or until the end of the column
     }
 }
 

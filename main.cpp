@@ -51,7 +51,7 @@ void testHeader () {
     HeaderManager* Header = new HeaderManager(50);
 
     cout << " _________________________________________________ " << endl
-         << "|          Welcom to the Header Manager           |" << endl
+         << "|          Welcome to the Header Manager          |" << endl
          << "|*************************************************|" << endl
          << "|                Creating Header...               |" << endl;
     cout << "| -> " << Header->headerSize <<endl;
@@ -103,7 +103,17 @@ void testHeader () {
 
 int main()
 {
+    cout << " _________________________________________________ " << endl
+         << "|          Welcome to the Header Manager          |" << endl
+         << "|*************************************************|" << endl
+         << "| ->                                              |" << endl;
 
+    while (true) {
+        string line;
+        cin >> line;
+
+        stringProcessor.interpreter(line);
+    }
 
 
     return 0;
