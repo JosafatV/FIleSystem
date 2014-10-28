@@ -6,11 +6,11 @@ class Decriptor
 public:
     Decriptor();
 
-    string tableName;
-    SimpleList values = new SimpleList ();
-    SimpleList columns = new SimpleList ();
-    SimpleList conditions = new SimpleList ();
-    SimpleList booperands = new SimpleList ();
+//    string tableName;
+//    SimpleList values = new SimpleList();
+//    SimpleList columns = new SimpleList();
+//    SimpleList conditions = new SimpleList();
+//    SimpleList booperands = new SimpleList();
 
     void interpreter (string Line, int id);
 

@@ -10,8 +10,9 @@ SOURCES += main.cpp \
 
 HEADERS += \
     stringprocessor.h \
+    src/HeaderManager/headermanager.h \
+    src/stringProcessor/stringprocessor.h \
     src/dataStructures/Node/SimpleListNode.h \
     src/dataStructures/SimpleList.h \
-    src/HeaderManager/headermanager.h \
-    src/stringProcessor/stringprocessor.h
+    interfaceNode.h
 

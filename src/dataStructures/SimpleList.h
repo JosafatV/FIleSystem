@@ -1,6 +1,6 @@
 #ifndef SIMPLELIST_H
 #define SIMPLELIST_H
-#include"src/dataStructures/SimpleList/Node/SimpleListNode.h"
+#include"src/dataStructures/Node/SimpleListNode.h"
 #include "iostream"
 using namespace std;
 template <typename K>
