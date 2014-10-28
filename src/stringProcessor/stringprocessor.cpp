@@ -1,5 +1,5 @@
 #include "src/dataStructures/SimpleList.h"
-#include "decriptor.h"
+#include "src/stringProcessor/stringprocessor.h"
 #include <iostream>
 #include <string.h>
 #include <fstream>
