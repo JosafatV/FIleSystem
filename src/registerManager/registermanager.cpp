@@ -1,8 +1,8 @@
 #include "registermanager.h"
-#include "headermanager.h"
-#include "SimpleList/SimpleList.h"
-#include "register.h"
-#include "sintaxdecripter.h"
+#include "src/HeaderManager/headermanager.h"
+#include "src/dataStructures/SimpleList.h"
+#include "src/Register/register.h"
+#include "src/stringProcessor/stringprocessor.h"
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
@@ -10,15 +10,16 @@
 using namespace std;
 
 
-//checkCondition(conditions)
-
-
 void RegisterManager::createTable(string tableName, string<>tableColumns, int<> columnsize, int regSize) {
     //table selection
     HeaderManager Header = new HeaderManager(int regSize);
-    cout << "Table: " << tableName << " created successfully" << endl;
+    int spaces = tableName.length();
+    cout << "| -> Table: " << tableName << " created successfully"
+    for (int i = 0; i<spaces; i++) {
+        cout << " ";
+    }
+    cout << endl;
 }
-
 
 void RegisterManager::select(string tableName, string<> tableColumns, string<> Conditions){
     //table selection
@@ -33,7 +34,6 @@ void RegisterManager::select(string tableName, string<> tableColumns, string<> C
         }
     }
 }
-
 
 void RegisterManager::insertInto(string tableName, string<> tableColumns, string<> values){
     //table selection
@@ -52,9 +52,8 @@ void RegisterManager::insertInto(string tableName, string<> tableColumns, string
             HeaderManager.addRegister();
         }
     }
-    cout << "Insertion successful" << endl;
+    cout << "|              Insertion successful               |" << endl;
 }
-
 
 void RegisterManager::update(string tableName, string<> tableColumns, string<> values, string<> conditions) {
     //table selection
@@ -70,9 +69,8 @@ void RegisterManager::update(string tableName, string<> tableColumns, string<> v
             }
         }
     }
-    cout << "Update successful" << endl;
+    cout << "|               Update successful                 |" << endl;
 }
-
 
 void RegisterManager::deleteFrom(string tableName, string<> conditions){
     //table selection
@@ -84,6 +82,7 @@ void RegisterManager::deleteFrom(string tableName, string<> conditions){
             HeaderManager.removeRegister();  //manages multiple eliminations from EOF
         }
      }
+    cout << "|               Deletion Completed                |" << endl;
 }
 
 /*///////////////////////////////////////////////////*/
@@ -98,15 +97,19 @@ void RegisterManager::createIndexOn(string tableName, string column, string type
 
 void RegisterManager::compressTable(string tableName) {
     //table selection
-
+    cout << "|              Compression Completed              |" << endl;
 }
 
 /*////////////////////////////////////////////////*/
 
 void RegisterManager::backupTable(string tableName){
+    //table selection
     HeaderManager.saveHeader(tableName);
+    cout << "|                Backup Completed                 |" << endl;
 }
 
 void RegisterManager::restoreTable(string tableName){
+    //table selection
     HeaderManager.loadHeader(tableName);
+    cout << "|          Table Restored Successfully            |" << endl;
 }

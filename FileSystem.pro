@@ -8,7 +8,9 @@ SOURCES += main.cpp \
     src/HeaderManager/headermanager.cpp \
     src/stringProcessor/stringprocessor.cpp \
     src/registermanager.cpp \
-    src/register.cpp
+    src/register.cpp \
+    src/Register/register.cpp \
+    src/registerManager/registermanager.cpp
 
 HEADERS += \
     stringprocessor.h \
@@ -19,5 +21,7 @@ HEADERS += \
     interfaceNode.h \
     src/registermanager.h \
     src/register.h \
-    ErrorCodes.h
+    ErrorCodes.h \
+    src/Register/register.h \
+    src/registerManager/registermanager.h
 

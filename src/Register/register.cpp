@@ -12,11 +12,17 @@ Register::Register()
 {
 }
 
+/* Changes the first char to an especific "nullChar" in order to mark the register as empty
+ *
+ */
 void Register::setEmpty (void* Here) {
     char* isEmpty = (char*) Here;
     *isEmpty = nullChar;
 }
 
+/* get the value of the first char to know if the register is empty
+ *
+ */
 char Register::getContentValue(void* Here) {
     char* Value = (char*) Here;
     return *Value;

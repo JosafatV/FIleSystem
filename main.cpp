@@ -85,7 +85,7 @@ void testHeader () {
 
     cout << "|           Register Quanity:" << Header->totalRegister() << endl;
 
-    cout << "|               Adding Register...               |" << endl;
+    cout << "|               Adding Register...                |" << endl;
     Header->addRegister();
 
     cout << "| -> " << Header->EndOF << endl;

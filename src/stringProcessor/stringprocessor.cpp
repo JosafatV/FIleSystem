@@ -132,7 +132,7 @@ string Decriptor::getExpression (string temp) {
        flag = false;
    }
    if (flag) {
-       cout << "ERROR 002: Operand missing or not defined" << endl;
+       cout << Error002 << endl;
    }
 
    return temp;
@@ -173,7 +173,7 @@ string Decriptor::getConditions(string description) {
                flag = false;
            }
            if (flag) {
-               cout << "ERROR 003: Boolean operand not recognized" << endl;
+               cout << Error003 << endl;
            }
 
        }
@@ -260,6 +260,6 @@ void Decriptor::interpreter (string Line, int id) {
        description = getName(description);
        flag = false;
    } if (flag) {
-       cout << "ERROR 001: Command not defined" << endl;
+       cout << Error001 << endl;
    }
 }
