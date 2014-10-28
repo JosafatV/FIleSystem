@@ -1,11 +1,11 @@
 #include "src/dataStructures/SimpleList.h"
-#include "src/stringDecriptor/decriptor.h"
+#include "decriptor.h"
 #include <iostream>
 #include <string.h>
 #include <fstream>
 using namespace std;
 
-string getName (string description) {
+string Decriptor::getName(string description) {
 
    string tableName;
 
@@ -20,7 +20,7 @@ string getName (string description) {
    return description;
 }
 
-string getColumns(bool simpleCol, string description) {
+string Decriptor::getColumns(bool simpleCol, string description) {
    int cut1 = description.find('(');
    int cut2 = description.find(')');
    string temp = description.substr(cut1+1, cut2); //last parameter is from cut1 to cut2 not from 0 to cut2 - ")"
@@ -48,7 +48,7 @@ string getColumns(bool simpleCol, string description) {
    return description;
 }
 
-string getValues(string description) {
+string Decriptor::getValues(string description) {
    int cut1 = description.find('(');
    int cut2 = description.find(')');
    string temp = description.substr(cut1+1, cut2-cut1-1); //last parameter is from cut1 to cut2 not from 0 to cut2 - ")"
@@ -67,7 +67,7 @@ string getValues(string description) {
    return description;
 }
 
-string getExpression (string temp) {
+string Decriptor::getExpression (string temp) {
    string toGet;
    string operand;
    string value;
@@ -138,7 +138,7 @@ string getExpression (string temp) {
    return temp;
 }
 
-string getConditions(string description) {
+string Decriptor::getConditions(string description) {
    //SimpleList toGetValue = new SimpleList();
    //SimpleList conditions = new SimpleList();
    //SimpleList booperands = new SimpleList();
@@ -183,7 +183,7 @@ string getConditions(string description) {
 }
 
 
-void interpreter (string Line, int id) {
+void Decriptor::interpreter (string Line, int id) {
 
    string command;
    string description;
@@ -262,49 +262,4 @@ void interpreter (string Line, int id) {
    } if (flag) {
        cout << "ERROR 001: Command not defined" << endl;
    }
-
-}
-
-int main()
-{
-
-    Decriptor decript = new Decriptor();
-
-    string test1 = "CREATE TABLE: tableName (columnaN<Lenght1>, columnaM<Lenght2>,)";
-    string test2 = "SELECT: * FROM tableName";
-    string test2a = "SELECT: (columnaN, columnaM,) FROM tableName";
-    string test2b = "SELECT: (columnaN, columnaM,) FROM tableName WHERE (Condition <= Value && Condition2 != Value )";
-    string test3 = "INSERT INTO: tableName SET (columnaN, columnaM,) VALUES (Value1, Value2,)";
-    string test4 = "UPDATE: tableName SET (columnaN, columnaM,) VALUES (Value1, Value2,) WHERE (Condition <= Value && Condition2 != Value )";
-    string test5 = "DELETE FROM: tableName WHERE (Condition <= Value && Condition2 != Value )";
-    string test5a = "DELETE FROM: tableName WHERE (Condition <= Value && Condition2 != Value )";
-    string test6 = "CREATE INDEX ON: tableName TYPE B+";
-    string test7 = "COMPRESS TABLE: tableName ";
-    string test8 = "BACKUP TABLE: tableName ";
-    string test9 = "RESTORE TABLE: tableName ";
-
-    decript.interpreter(test1, 0);
-    decript.interpreter(test2, 0);
-    decript.interpreter(test2a, 1);
-    decript.interpreter(test2b, 2);
-    decript.interpreter(test3, 0);
-    decript.interpreter(test4, 0);
-    decript.interpreter(test5, 0);
-    decript.interpreter(test5a, 0);
-    decript.interpreter(test6, 0);
-    decript.interpreter(test7, 0);
-    decript.interpreter(test8, 0);
-    decript.interpreter(test9, 0);
-
-    string testA = "(Condition <= Value )";
-    string testB = "(Condition = Value || Condition2 <> Value2 )";
-    string testC = "(Condition < Value && Condition2 > Value2 || Condition >= Value && Condition2 <= Value2 )";
-    string testD = "(Value1, Value2, Value3, Value4, ValueN,)";
-
-    cout << getConditions(testA);
-    cout << getConditions(testB);
-    cout << getConditions(testC);
-    cout << getValues(testD);
-
-   return 0;
 }
