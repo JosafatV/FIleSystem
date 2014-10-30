@@ -40,24 +40,27 @@ string Register::getData(void* Here, int iColumn) {
     }
 }
 
-string Register::setData(void* Here, int iColumn, string Value) {
+void Register::setData(void* Here, int iColumn, string Value) {
     char* writePoiner = (char *)Here;
     int beg = ColumnSize<iColumn>;
     int end = ColumnSize<iColumn+1>;
-    if (Value.size()<(end-beg)) {
-    for (beg <= end; beg++;) {               //check lenght of string
-        writePoiner += beg;
-        *writePointer = Value;
-    }
+    if (Value.size()<(end-beg)) {//check lenght of string
+        for (beg <= end; beg++;) {
+            writePoiner += beg;
+            *writePointer = Value;
+        }
     } else {
         cout << Error004 << endl;
     }
 }
 
 int Register::ColumnNametoColumnSize (string Name) {
+    int index = -1;
     for (int i = 0; i<ColumnName.size(); i++) {
         if (ColumnName(i)==Name) {
-            return i;
+            index = i;
+            break;
         }
     }
+    return index;
 }

@@ -1,12 +1,21 @@
 #include "src/dataStructures/SimpleList.h"
 #include "src/registerManager/registermanager.h"
-#include "src/stringProcessor/stringprocessor.h"
+#include "src/stringProcessor/decriptor.h"
 #include <iostream>
 #include <string.h>
 #include <fstream>
 using namespace std;
 
-void emptyVariables() {
+Decriptor::Decriptor() {
+    string tableName;
+    SimpleList tablecolumns = SimpleList();
+    SimpleList columnsize = SimpleList();
+    SimpleList values = SimpleList();
+    SimpleList conditions = SimpleList();
+    SimpleList booperands = SimpleList();
+}
+
+void Decriptor::emptyVariables() {
     tableName = "";
     values.clear();
     columns.clear();
@@ -61,17 +70,18 @@ string Decriptor::getValues(string description) {
    int cut1 = description.find('(');
    int cut2 = description.find(')');
    string temp = description.substr(cut1+1, cut2-cut1-1); //last parameter is from cut1 to cut2 not from 0 to cut2 - ")"
-   string column;
+   string value;
    //SimpleList values = new SimpleList();
    //cout << "| -> " << temp << endl;
    cout << "| -> ";
    while (temp.length()>1) {
        cut1 = temp.find(',');
-       column = temp.substr(0, cut1);
+       value = temp.substr(0, cut1);
        temp = temp.substr(cut1+1, temp.length()); //cut1+1 removes ","
        //values.append();
-       cout << column << " - ";
+       cout << value << " - ";
    }
+   description = description.substr(cut2+1, description.length());
    cout << endl;
    return description;
 }
@@ -167,7 +177,7 @@ string Decriptor::getConditions(string description) {
            cut1 = temp.find_first_of(' ');
 
            operand = temp.substr(0, cut1);
-           temp = temp.substr(cut1+1, cut2);
+           temp = temp.substr(cut1+1, temp.length());
 
            if (operand=="&&"){
                operation=0;

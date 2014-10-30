@@ -2,18 +2,19 @@
 #include "src/HeaderManager/headermanager.h"
 #include "src/dataStructures/SimpleList.h"
 #include "src/Register/register.h"
-#include "src/stringProcessor/stringprocessor.h"
+#include "src/stringProcessor/decriptor.h"
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
 #include <string>
 using namespace std;
 
+RegisterManager::RegisterManager () {
+
+}
 
 void RegisterManager::createTable(string tableName, SimpleList tableColumns, SimpleList columnsize, int regSize) {
     //table creation
-    //define global tableColumns
-    //define global columnsize
     HeaderManager Header = new HeaderManager(regSize);
     int spaces = tableName.length();
     cout << "| -> Table: " << tableName << " created successfully";
@@ -83,7 +84,7 @@ void RegisterManager::deleteFrom(string tableName, SimpleList Conditions, Simple
             Register.setEmpty((HeaderManager.movingPointer)+i*HeaderManager.registerSize);
             HeaderManager.removeRegister();  //manages multiple eliminations from EOF
         }
-     }
+    }
     cout << "|               Deletion Completed                |" << endl;
 }
 
@@ -93,6 +94,7 @@ void RegisterManager::createIndexOn(string tableName, string column, string type
     //table selection
     int iColumn = Register.ColumnNametoColumnSize(column);
     for (int i = 0; i<HeaderManager.registerSize; i++){
+        BinaryTree.start(type);
         BinaryTree.add(Register.getData(iColumn));
     }
 }

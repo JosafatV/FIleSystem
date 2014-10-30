@@ -9,27 +9,27 @@ public:
     /*!
      * \brief tableName - the name by which the file will be recognized
      */
-    string tableName;
+    //string tableName;
 
     /*!
      * \brief values - the values that the register will have when created
      */
-    SimpleList values = new SimpleList();
+    //SimpleList values = new SimpleList();
 
     /*!
      * \brief columns - the name of the columns, in order, that compose the file
      */
-    SimpleList columns = new SimpleList();
+    //SimpleList columns = new SimpleList();
 
     /*!
      * \brief conditions - a special list that holds the value of the comparator and the value to which the entry will be compared to
      */
-    SimpleList conditions = new SimpleList();
+    //SimpleList conditions = new SimpleList();
 
     /*!
      * \brief booperands - a list with the boolean operands for the comparison
      */
-    SimpleList booperands = new SimpleList();
+    //SimpleList booperands = new SimpleList(string);
 
     /*!
      * \brief interpreter - parses the string that the user inputed according to the first command

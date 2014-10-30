@@ -1,5 +1,5 @@
 #include "src/dataStructures/SimpleList.h"
-#include "src/stringProcessor/stringprocessor.h"
+#include "src/stringProcessor/decriptor.h"
 #include "src/HeaderManager/headermanager.h"
 #include <iostream>
 #include <string.h>
@@ -60,41 +60,29 @@ void testHeader () {
     cout << "| -> " << *(Header->freeRegister) << endl;
     cout << "| -> " << *(Header->fullRegister) << endl;
     cout << "| -> " << *(Header->registerSize) << endl;
-
     cout << "|               Adding Register...               |" << endl;
     Header->addRegister();
-
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
     cout << "| -> " << *(Header->fullRegister) << endl;
-
     cout << "|               Adding Register...               |" << endl;
     Header->addRegister();
-
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
     cout << "| -> " << *(Header->fullRegister) << endl;
-
     cout << "|              Removing Register...              |" << endl;
     Header->removeRegister();
-
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
     cout << "| -> " << *(Header->fullRegister) << endl;
-
-
     cout << "|           Register Quanity:" << Header->totalRegister() << endl;
-
     cout << "|               Adding Register...                |" << endl;
     Header->addRegister();
-
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
     cout << "| -> " << *(Header->fullRegister) << endl;
-
     cout << "|               Adding Register...               |" << endl;
     Header->addRegister();
-
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
     cout << "| -> " << *(Header->fullRegister) << endl;
@@ -104,17 +92,24 @@ void testHeader () {
 int main()
 {
     cout << " _________________________________________________ " << endl
-         << "|          Welcome to the Header Manager          |" << endl
+         << "|          Welcome to the MyFSQL - server         |" << endl
          << "|*************************************************|" << endl
-         << "| ->                                              |" << endl;
+         << "| -> ";
 
     while (true) {
+        int type=0;
         string line;
         cin >> line;
-
-        stringProcessor.interpreter(line);
+        //GUI get id
+        if (line == "EXIT"){
+            break;
+        } else {
+            Decriptor* execute = new Decriptor;
+            execute->interpreter(line, type);
+        }
     }
-
+    cout << "|              - EXITING PROGRAM -                |"
+            "|______________________***________________________|" << endl;
 
     return 0;
 }

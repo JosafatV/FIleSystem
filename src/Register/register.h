@@ -10,13 +10,13 @@ public:
      * \brief ColumnName is a simple list with the name of the columns
      * This global variable helps the program traducing the strings that the user inputs into integers that are more manageable
      */
-    SimpleList ColumnName = new SimpleList ();
+    //SimpleList ColumnName = new SimpleList ();
 
     /*!
      * \brief ColumnSize is a simple list with the values of the size of columns
      * This global variable always starts on 0 and helps the program manage the movingPointer position "in the X coordinate" (Y being the registers), in order to get individual sets of data
      */
-    SimpleList ColumnSize = new SimpleList ();
+   // SimpleList ColumnSize = new SimpleList ();
 
     /*!
      * \brief nullChar marks a register as empty
@@ -52,6 +52,15 @@ public:
      * \return the index (int)
      */
     int ColumnNametoColumnSize (string Name);
+
+    /*!
+     * \brief getContentValue checks if a register is empty
+     * \param Here the position of the first char
+     * \return the char so it an be compared to nullChar
+     *
+     * With this function the programs gets the first charactr of a register in order to know if that register is empty or has data
+     */
+    char getContentValue(void* Here);
 };
 
 #endif // REGISTER_H

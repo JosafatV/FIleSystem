@@ -5,19 +5,16 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     src/HeaderManager/headermanager.cpp \
-    src/stringProcessor/stringprocessor.cpp \
+    src/Register/register.cpp \
     src/registerManager/registermanager.cpp \
-    src/Register/register.cpp
-
+    src/stringProcessor/decript.cpp
 
 HEADERS += \
     src/HeaderManager/headermanager.h \
-    src/stringProcessor/stringprocessor.h \
-    src/registerManager/registermanager.h \
-    src/Register/register.h \
-
     src/dataStructures/Node/SimpleListNode.h \
     src/dataStructures/SimpleList.h \
-    ErrorCodes.h
-
-
+    interfaceNode.h \
+    ErrorCodes.h \
+    src/Register/register.h \
+    src/registerManager/registermanager.h \
+    src/stringProcessor/decriptor.h
