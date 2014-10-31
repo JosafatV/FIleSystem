@@ -1,6 +1,6 @@
 #include "src/dataStructures/SimpleList.h"
 #include "src/registerManager/registermanager.h"
-#include "src/stringProcessor/decriptor.h"
+#include "src/stringProcessor/decript.h"
 #include <iostream>
 #include <string.h>
 #include <fstream>
@@ -14,17 +14,17 @@ SimpleList<int>* booperands;
 
 Decriptor::Decriptor() {
     tableName;
-    values = SimpleList();
-    conditions = SimpleList();
+    values = SimpleList<string>();
+    conditions = SimpleList<string>();
     booperands = SimpleList<int>();
 }
 
 void Decriptor::emptyVariables() {
     tableName = "";
-    values.clear();
-    columns.clear();
-    conditions.clear();
-    booperands.clear();
+    values->clear();
+    columns->clear();
+    conditions->clear();
+    booperands->clear();
 }
 
 string Decriptor::getName(string description) {
@@ -111,40 +111,38 @@ string Decriptor::getExpression (string temp) {
    value = temp.substr(0, cut1);
    temp = temp.substr(cut1+1, cut2);
 
-   cout << toGet;
-
    if (operand==">") {
-       operation="0"+value;
+       operation=toGet+"$0%"+value;
        conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand==">="){
-       operation="1"+value;
+       operation=toGet+"$1%"+value;
        conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand=="<"){
-       operation="2"+value;
+       operation=toGet+"$2%"+value;
        conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand=="<="){
-       operation="3"+value;
+       operation=toGet+"$3%"+value;
        conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand=="="){
-       operation="4"+value;
+       operation=toGet+"$4%"+value;
        conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand=="<>"){
-       operation="5"+value;
+       operation=toGet+"$5%"+value;
        conditions.append(operation);
        cout << operation;
        flag = false;
@@ -165,32 +163,27 @@ string Decriptor::getConditions(string description) {
    bool flag = true;
 
    while (temp.length()>1) {
-
        temp = getExpression(temp);
-
        if (temp.length()>1) {
-
            cut1 = temp.find_first_of(' ');
-
            operand = temp.substr(0, cut1);
            temp = temp.substr(cut1+1, temp.length());
 
            if (operand=="&&"){
                operation=0;
-               //booperands.append(operation);
+               booperands.append(operation);
                cout << " / " << operation << " / ";
                flag = false;
            }
            if (operand=="||"){
                operation=1;
-               //booperands.append(operation);
+               booperands.append(operation);
                cout << " / " << operation << " / ";
                flag = false;
            }
            if (flag) {
                cout << Error003 << endl;
            }
-
        }
    }
    cout << endl;
@@ -207,9 +200,6 @@ void Decriptor::interpreter (string Line, int id) {
    command = Line.substr(0, cut);
    description = Line.substr(cut+2, Line.length());
 
-   //cout << "| -> " << command << endl;
-   //cout << "| -> ";
-
    bool flag = true;
    if (0==command.compare("CREATE TABLE")) {
        description = getName(description);
@@ -225,14 +215,13 @@ void Decriptor::interpreter (string Line, int id) {
        if (id == 0) {
            cut = description.find_last_of(' ');
            tableName = description.substr(cut, description.length());
-           cout << "| -> " << tableName << endl;
-           cout << "| -> " << " * " << endl;
+           Manager.select(tableName);
        }
        if (id == 1) {
            description = getColumns(true, description);
            cut = description.find_last_of(' ');
            tableName = description.substr(cut, description.length());
-           cout << "| -> " << tableName << endl;
+           Manager.select(tableName, columns);
        }
        if (id == 2) {
            description = getColumns(true, description);
@@ -242,9 +231,9 @@ void Decriptor::interpreter (string Line, int id) {
            description = description.substr(cut+1, description.length());
            description = description.substr(description.find('R')+3, description.length());
            description = getConditions(description);
-           cout << "| -> " << tableName << endl;
+           Manager.select(tableName, columns, conditions);
        }
-       //Manager.select(tableName, columns, conditions);
+
        flag = false;
    }
    if (0==command.compare("INSERT INTO")) {

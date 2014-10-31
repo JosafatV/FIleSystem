@@ -7,7 +7,7 @@ using namespace std;
 class Register
 {
 public:
-    Register(SimpleList<string>* tableColumns, SimpleList<int>* columnsizes);
+    Register(SimpleList<char *>* tableColumns, SimpleList<int>* columnsizes);
 
     /*!
      * \brief ColumnName is a simple list with the name of the columns
@@ -64,6 +64,21 @@ public:
      * With this function the programs gets the first charactr of a register in order to know if that register is empty or has data
      */
     char getContentValue(void* Here);
+
+    /*!
+     * \brief checkAux
+     * \param Here
+     * \param conditions
+     * \param i
+     */
+    bool checkAux(void* Here, SimpleList<char *>* conditions, int i);
+
+    /*!
+     * \brief check
+     * \param conditions
+     * \param booperands
+     */
+    bool check(void *Here, SimpleList<char *>* conditions, SimpleList<int>* booperands);
 };
 
 #endif // REGISTER_H

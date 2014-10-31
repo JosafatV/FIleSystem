@@ -14,17 +14,17 @@ public:
     /*!
      * \brief values - the values that the register will have when created
      */
-    SimpleList<string>* values = new SimpleList<string>();
+    SimpleList<char *>* values = new SimpleList<char *>();
 
     /*!
      * \brief columns - the name of the columns, in order, that compose the file
      */
-    SimpleList<string>* columns = new SimpleList<string>();
+    SimpleList<char *>* columns = new SimpleList<char *>();
 
     /*!
      * \brief conditions - a special list that holds the value of the comparator and the value to which the entry will be compared to
      */
-    SimpleList<string>* conditions = new SimpleList<string>();
+    SimpleList<char *>* conditions = new SimpleList<char *>();
 
     /*!
      * \brief booperands - a list with the boolean operands for the comparison
