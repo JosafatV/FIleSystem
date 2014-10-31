@@ -58,23 +58,31 @@ void RegisterManager::select(string tableName, SimpleList<char *>* tableColumns)
     cout << "|-------------------------------------------------|" << endl;
 }
 
-void RegisterManager::select(string tableName, SimpleList<char *>* tableColumns, SimpleList<char *>* Conditions, SimpleList<int>* Booperands){
-    Header->resetmovingPointer();
-    for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
-        Header->movingPointer +=i*(*Header->registerSize); // movingPointer points at the beg of register
-        if (Reg->getContentValue(Header->movingPointer) != Reg->nullChar && Reg->check(Header->movingPointer, Conditions, Booperands)) { //it's not empty and fulfils the conditions!
-            cout << "| ";
-            for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
-                int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
-                cout << Reg->getData(Header->movingPointer+Col, Col) << " | ";
-            }
-            cout << endl; //end of reg
+void RegisterManager::select(string tableName, string columnName, SimpleList<char *>* Conditions, SimpleList<int>* Booperands){
+
+    if (filesystem->readFromFile(tableName, columnName, 0)){
+        for (int i = 0 ; i < field.getLenght() ; i++){
+                cout << field[i] << " ";
         }
-    }//no break; -> check all file
+    }
+
+//    Header->resetmovingPointer();
+//    for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
+//        Header->movingPointer +=i*(*Header->registerSize); // movingPointer points at the beg of register
+//        if (Reg->getContentValue(Header->movingPointer) != Reg->nullChar && Reg->check(Header->movingPointer, Conditions, Booperands)) { //it's not empty and fulfils the conditions!
+//            cout << "| ";
+//            for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
+//                int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
+//                cout << Reg->getData(Header->movingPointer+Col, Col) << " | ";
+//            }
+//            cout << endl; //end of reg
+//        }
+//    }//no break; -> check all file
     cout << "|-------------------------------------------------|" << endl;
 }
 
 void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColumns, SimpleList<char*>* values){
+<<<<<<< HEAD
     simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
     simpleToArr<char*>* ARR2 = new simpleToArr<char*>();
     array<char*> newColumnsarr  = ARR1->convertFromSL(tableColumns);
@@ -84,6 +92,30 @@ void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColum
         cout << "|              Insertion successful               |" << endl;
     }else{
         cout << "|            Insertion NOT successful             |" << endl;
+=======
+
+
+    Header->resetmovingPointer();
+    cout << *Header->freeRegister;
+    if (*Header->freeRegister > 0) {
+        for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator, looks for a freeRegister
+            Header->movingPointer+=i*(*Header->registerSize); // movingPointer moves to the beg of register
+            if (Reg->getContentValue(Header->movingPointer)==Reg->nullChar) {//we found it!
+                for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
+                    int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
+                    Reg->setData(Header->movingPointer+Col, Col, *values->elementAt(j)->getElement());
+                }
+                Header->addRegister();
+                break;
+            }
+        }
+    } else { //there are no freeRegisters, we proceed to write at the endint
+        for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
+            int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
+            Reg->setData(Header->EndOF+Col, Col, *values->elementAt(j)->getElement());
+        }
+        Header->addRegister();
+>>>>>>> 079d9e9f2b33f360274758e3a9fc67742c4f5245
     }
 //    Header->resetmovingPointer();
 //    cout << *Header->freeRegister;
@@ -132,6 +164,7 @@ void RegisterManager::update(string tableName, SimpleList<char *>* tableColumns,
 //    cout << "|               Update successful                 |" << endl;'
 }
 
+<<<<<<< HEAD
 void RegisterManager::deleteFrom(string tableName, SimpleList<char *> *conditions, SimpleList<int>* booperands){
 
     Header->resetmovingPointer();
@@ -142,6 +175,22 @@ void RegisterManager::deleteFrom(string tableName, SimpleList<char *> *condition
             Header->removeRegister();
         }
     }//no break; -> check all file
+=======
+void RegisterManager::deleteFrom(string tableName, string pColumnName, string pData){
+
+    if (filesystem->deleteData(tableName,pColumnName, pData)){
+        cout << "| -> Table: " << tableName << " created successfully"<<endl;
+    }
+
+//    Header->resetmovingPointer();
+//    for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
+//        Header->movingPointer+=i*(*Header->registerSize); // movingPointer points at the beg of register
+//        if (Reg->check(Header->movingPointer, conditions, booperands)) {//we found it!
+//            Reg->setEmpty(Header->movingPointer);
+//            Header->removeRegister();
+//        }
+//    }//no break; -> check all file
+>>>>>>> 079d9e9f2b33f360274758e3a9fc67742c4f5245
     cout << "|               Deletion Completed                |" << endl;
 }
 
