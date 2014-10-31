@@ -18,7 +18,7 @@ public:
                             array<char*>* pColumnNam);
     bool removeFile(string pFileName);
     bool update (string pData , string pFileName,  int pRow, int pColumn);
-    array<char*> readFromFile(string pFileName , int pColumn, int pRow);
+    array<char*> readFromFile(string pFileName , string pColumnName, int pRow);
     bool backUpFile (string pFileName);
     bool restoreFile(string pFileName);
     bool deleteData ( string pFilename , string pColumnName , string pData);
