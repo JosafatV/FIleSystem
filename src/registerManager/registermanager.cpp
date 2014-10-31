@@ -19,8 +19,7 @@ RegisterManager::RegisterManager (string tableName,
     //table creation
     Header = new HeaderManager(regSize);
     Reg = new Register(tableColumns, columnsize);
-    reader = new readfile();
-    writer = new writefile();
+    filesystem = new FSQLServerFileSystem();
     createHardTable(tableName, tableColumns, columnsize, regSize);
 
 }
@@ -36,7 +35,7 @@ void RegisterManager::createHardTable(string tableName,
     array<char*> Names = ARR1->convertFromSL(tableColumns);
     array<int> Sizes = ARR2->convertFromSL(columnsize);
 
-    if(writer->createTable(&regSize, &Sizes, &Names, &tableName)) {
+    if (filesystem->createNewFile(&regSize, &Sizes, &Names, &tableName)){
         cout << "| -> Table: " << tableName << " created successfully"<<endl;
     }
 }

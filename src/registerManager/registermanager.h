@@ -4,8 +4,7 @@
 #include "src/dataStructures/SimpleList.h"
 #include "src/HeaderManager/headermanager.h"
 #include "src/Register/register.h"
-#include "writefile.h"
-#include "readfile.h"
+#include "fsqlserverfilesystem.h"
 
 class RegisterManager
 {
@@ -109,8 +108,7 @@ public:
 private:
     HeaderManager* Header;
     Register* Reg;
-    readfile* reader;
-    writefile* writer;
+    FSQLServerFileSystem* filesystem;
 
 };
 
