@@ -60,10 +60,10 @@ void RegisterManager::select(string tableName, SimpleList<char *>* tableColumns)
 
 void RegisterManager::select(string tableName, string columnName, SimpleList<char *>* Conditions, SimpleList<int>* Booperands){
 
-    if (filesystem->readFromFile(tableName, columnName, 0)){
-        for (int i = 0 ; i < field.getLenght() ; i++){
-                cout << field[i] << " ";
-        }
+    array<char*> ARR = filesystem->readFromFile(tableName, columnName, 0);
+
+    for (int i = 0 ; i < ARR.getLenght() ; i++){
+        ARR[i];
     }
 
 //    Header->resetmovingPointer();
@@ -82,17 +82,15 @@ void RegisterManager::select(string tableName, string columnName, SimpleList<cha
 }
 
 void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColumns, SimpleList<char*>* values){
-<<<<<<< HEAD
     simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
     simpleToArr<char*>* ARR2 = new simpleToArr<char*>();
     array<char*> newColumnsarr  = ARR1->convertFromSL(tableColumns);
     array<char*> newValuesArr = ARR2->convertFromSL(values);
 
-    if(filesystem->writeNewLineToFile(tableName , newValuesArr , newColumnsarr)){
+    if(filesystem->writeNewLineToFile(tableName , &newValuesArr , &newColumnsarr)){
         cout << "|              Insertion successful               |" << endl;
     }else{
         cout << "|            Insertion NOT successful             |" << endl;
-=======
 
 
     Header->resetmovingPointer();
@@ -115,7 +113,6 @@ void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColum
             Reg->setData(Header->EndOF+Col, Col, *values->elementAt(j)->getElement());
         }
         Header->addRegister();
->>>>>>> 079d9e9f2b33f360274758e3a9fc67742c4f5245
     }
 //    Header->resetmovingPointer();
 //    cout << *Header->freeRegister;
@@ -139,6 +136,7 @@ void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColum
 //        Header->addRegister();
 //    }
 //    cout << "|              Insertion successful               |" << endl;
+    }
 }
 
 void RegisterManager::update(string tableName, SimpleList<char *>* tableColumns, SimpleList<char *>* values) {
@@ -164,7 +162,6 @@ void RegisterManager::update(string tableName, SimpleList<char *>* tableColumns,
 //    cout << "|               Update successful                 |" << endl;'
 }
 
-<<<<<<< HEAD
 void RegisterManager::deleteFrom(string tableName, SimpleList<char *> *conditions, SimpleList<int>* booperands){
 
     Header->resetmovingPointer();
@@ -175,7 +172,8 @@ void RegisterManager::deleteFrom(string tableName, SimpleList<char *> *condition
             Header->removeRegister();
         }
     }//no break; -> check all file
-=======
+}
+
 void RegisterManager::deleteFrom(string tableName, string pColumnName, string pData){
 
     if (filesystem->deleteData(tableName,pColumnName, pData)){
@@ -190,7 +188,7 @@ void RegisterManager::deleteFrom(string tableName, string pColumnName, string pD
 //            Header->removeRegister();
 //        }
 //    }//no break; -> check all file
->>>>>>> 079d9e9f2b33f360274758e3a9fc67742c4f5245
+
     cout << "|               Deletion Completed                |" << endl;
 }
 
@@ -200,7 +198,7 @@ void RegisterManager::createIndexOn(string tableName, SimpleList<char *>* column
     simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
     array<char*> newColumnsarr  = ARR1->convertFromSL(column);
 
-    filesystem->createIndexOn(tablename , newColumnsarr , type);
+    filesystem->createIndexOn(tableName , newColumnsarr , type);
 
 //    Header->resetmovingPointer();
 //    SimpleList<char *> Nodes = SimpleList<char*>();

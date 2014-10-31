@@ -40,7 +40,7 @@ public:
      * Selects from the columns entered ("*" means all of them) and optionally compares the value of the register to given conditions to get more precise info
      * It will only print the columns given, the parameters measured in the conditions can range outside the printed columns
      */
-    void select(string tableName, SimpleList<char *>* tableColumns, SimpleList<char *>* Conditions, SimpleList<int>* Booperands);
+    void select(string tableName, string columnName, SimpleList<char *>* Conditions, SimpleList<int>* Booperands);
 
     /*!
      * \brief RegisterManager::insertInto - adds registers
@@ -66,7 +66,7 @@ public:
      * \param conditions - a special list that holds the value of the comparator and the value to which the entry will be compared to
      * \param booperands - a list with the boolean operands for the comparison
      */
-    void deleteFrom(string tableName, SimpleList<char *>* conditions, SimpleList<int>* booperands);
+    void RegisterManager::deleteFrom(string tableName, string pColumnName, string pData);
 
     /*!
      * \brief RegisterManager::createIndexOn - indexes a column

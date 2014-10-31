@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class readfile : protected useFile
+class readfile : public useFile
 {
     public:
         readfile();

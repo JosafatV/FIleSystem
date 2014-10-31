@@ -19,7 +19,7 @@ int main()
     cout << "| -> " << Header->BOF << endl;
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
-    cout << "| -> " << *(Header->Register) << endl;
+    cout << "| -> " << *(Header->fullRegister) << endl;
     cout << "| -> " << *(Header->registerSize) << endl;
 
   cout << "|            Adding Register...            |" << endl;
@@ -27,21 +27,21 @@ int main()
 
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
-    cout << "| -> " << *(Header->Register) << endl;
+    cout << "| -> " << *(Header->fullRegister) << endl;
 
   cout << "|            Adding Register...            |" << endl;
     Header->addRegister();
 
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
-    cout << "| -> " << *(Header->Register) << endl;
+    cout << "| -> " << *(Header->fullRegister) << endl;
 
   cout << "|           Removing Register...            |" << endl;
     Header->removeRegister();
 
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
-    cout << "| -> " << *(Header->Register) << endl;
+    cout << "| -> " << *(Header->fullRegister) << endl;
 
 
   cout << "|           Register Quanity:" << Header->totalRegister() << endl;
@@ -51,14 +51,14 @@ int main()
 
     cout << "| -> " << Header->EndOF << endl;
     cout << "| -> " << *(Header->freeRegister) << endl;
-    cout << "| -> " << *(Header->Register) << endl;
+    cout << "| -> " << *(Header->fullRegister) << endl;
 
     cout << "|            Adding Register...            |" << endl;
       Header->addRegister();
 
       cout << "| -> " << Header->EndOF << endl;
       cout << "| -> " << *(Header->freeRegister) << endl;
-      cout << "| -> " << *(Header->Register) << endl;
+      cout << "| -> " << *(Header->fullRegister) << endl;
 
     return 0;
 }

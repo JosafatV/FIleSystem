@@ -99,8 +99,6 @@ int main()
     int type=0;
     while (running) {
         getline (cin, line);
-        //line = "CREATE TABLE: perro (orejas<32>, colmillos<64>,)";
-        //cout << line;
         if (line == "EXIT"){
             running = false;
         if (line == ""){

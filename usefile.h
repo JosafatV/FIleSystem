@@ -12,6 +12,8 @@ using namespace std;
 
 class useFile
 {
+public:
+    int getColumnNumber(string* fileName ,string* columnName);
 protected:
     useFile();
 
@@ -29,7 +31,6 @@ protected:
     int getRegisterQuantity();
     int columnSize(int pColumnInt);
     int sizeUntilColumn(int pColumn);
-    int getColumnNumber(string* fileName ,string* columnName);
     void fillString(string* pData, int pSize);
     void checkString(string* pStringToCheck);
     void checkSize(string* add, int count);

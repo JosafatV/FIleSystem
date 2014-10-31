@@ -68,7 +68,7 @@ array<char*> FSQLServerFileSystem::readFromFile(string pFileName , string pColum
         return columnData;
     }
 
-    int pColumn = RF->getColumnNumber(pFileName,pColumnName);
+    int pColumn = RF->getColumnNumber(&pFileName,&pColumnName);
 
     if (fileExists(pFileName)){
         //If column is zero then the user means to read a whole registry
