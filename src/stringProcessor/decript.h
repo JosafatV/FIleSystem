@@ -14,22 +14,34 @@ public:
     /*!
      * \brief values - the values that the register will have when created
      */
-    SimpleList<char *>* values = new SimpleList<char *>();
+    SimpleList<char* >* values = new SimpleList<char *>();
+
+    /*!
+     * \brief val
+     */
+    SimpleList<int>* val;
 
     /*!
      * \brief columns - the name of the columns, in order, that compose the file
      */
-    SimpleList<char *>* columns = new SimpleList<char *>();
+    SimpleList<char* >* columns = new SimpleList<char *>();
 
     /*!
      * \brief conditions - a special list that holds the value of the comparator and the value to which the entry will be compared to
      */
-    SimpleList<char *>* conditions = new SimpleList<char *>();
+    SimpleList<char* >* conditions = new SimpleList<char *>();
 
     /*!
      * \brief booperands - a list with the boolean operands for the comparison
      */
     SimpleList<int>* booperands = new SimpleList<int>();
+
+    /*!
+     * \brief stringToInt
+     * \param pStr
+     * \return
+     */
+    int stringToInt(string* pStr);
 
     /*!
      * \brief interpreter - parses the string that the user inputed according to the first command
@@ -39,7 +51,7 @@ public:
      * Since the commands inputed are not easily parsed by an individual code they are splitted according to it's mayor blocks to parse them into something useful
      * This function only takes correct strings, the blocks become SimpleLists of various kinds for the program to use
      */
-    void interpreter (string Line, int id);
+    void interpreter (string* Line, int* id);
 
 private:
 

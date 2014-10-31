@@ -28,9 +28,9 @@ HeaderManager::HeaderManager(int regSize)
         *freeRegister = 0;
     }
 
-//    void HeaderManger::resetmovingPointer() {
-//        movingPointer = BOF;
-//    }
+    void HeaderManager::resetmovingPointer() {
+        movingPointer = BOF;
+    }
 
     void HeaderManager::addRegister() {
         if (*freeRegister > 0) {

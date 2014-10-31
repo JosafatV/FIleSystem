@@ -95,20 +95,26 @@ int main()
          << "| -> ";
 
     bool running = true;
+    string line;
+    int type=0;
     while (running) {
-        int type=0;
-        string line;
-        cin >> line;
-        //GUI get id
+        getline (cin, line);
+        //line = "CREATE TABLE: perro (orejas<32>, colmillos<64>,)";
+        //cout << line;
         if (line == "EXIT"){
             running = false;
+        if (line == ""){
+            cout << endl;
+        }
         } else {
             Decriptor* execute = new Decriptor;
-            execute->interpreter(line, type);
+            execute->interpreter(&line, &type);
         }
+        line="";
+        cout << "| -> ";
     }
-    cout << "|              - EXITING PROGRAM -                |"
-            "|______________________***________________________|" << endl;
+    cout << "|              - EXITING PROGRAM -                |" << endl;
+    cout << "|______________________***________________________|" << endl;
 
     return 0;
 }

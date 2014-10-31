@@ -1,4 +1,4 @@
-#include "register.h"
+#include "src/Register/register.h"
 #include "src/HeaderManager/headermanager.h"
 #include "ErrorCodes.h"
 #include <iostream>
@@ -17,7 +17,7 @@ Register::Register(SimpleList<char *>* tableColumns, SimpleList<int>* columnSize
 
     ColumnSize->append(0);
     for (int i = 0; i<tableColumns->getLenght(); i++) {
-        ColumnName->append((*tableColumns->elementAt(i)->getElement()).c_str());
+        //ColumnName->append(*(tableColumns->elementAt(i)->getElement()).c_str());
         ColumnSize->append(*columnSizes->elementAt(i)->getElement());
     }
 
@@ -51,6 +51,7 @@ string Register::getData(void* Here, int iColumn) {
         cout << (char*)Here;    //prints chars until '/o' or until the end of the column
         Data += (char*)Here;
     }
+    cout << Data;
     return Data;
 }
 
@@ -64,7 +65,7 @@ void Register::setData(void* Here, int iColumn, string Value) {
             writePointer = Value.c_str();  //writes each char?
         }
     } else {
-        cout << Error004 << endl;
+        cout << "Error004" << endl;
     }
 }
 
@@ -83,7 +84,7 @@ bool Register::checkAux(void* Here, SimpleList<char *>* conditions, int i) {
     string Expression = *conditions->elementAt(i)->getElement();
     string toGet = Expression.substr(0, Expression.find('$'));
     Expression=Expression.substr(Expression.find('$')+1, Expression.length());
-    int Operand = (int)(Expression.substr(0, Expression.find('%')));
+    int Operand = 0;//(int)(Expression.substr(0, Expression.find('%')));
     Expression=Expression.substr(Expression.find('%')+1, Expression.length());
     string Value=Expression;
 
