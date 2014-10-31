@@ -60,10 +60,6 @@ void RegisterManager::select(string tableName, SimpleList<char *>* tableColumns)
 
 void RegisterManager::select(string tableName, string columnName, SimpleList<char *>* Conditions, SimpleList<int>* Booperands){
 
-    simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
-
-    array<char*> Names = ARR1->convertFromSL(tableColumns);
-
     if (filesystem->readFromFile(tableName, columnName, 0)){
         for (int i = 0 ; i < field.getLenght() ; i++){
                 cout << field[i] << " ";
@@ -86,6 +82,8 @@ void RegisterManager::select(string tableName, string columnName, SimpleList<cha
 }
 
 void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColumns, SimpleList<char*>* values){
+
+
     Header->resetmovingPointer();
     cout << *Header->freeRegister;
     if (*Header->freeRegister > 0) {
@@ -124,15 +122,20 @@ void RegisterManager::update(string tableName, SimpleList<char *>* tableColumns,
     cout << "|               Update successful                 |" << endl;
 }
 
-void RegisterManager::deleteFrom(string tableName, SimpleList<char *> *conditions, SimpleList<int>* booperands){
-    Header->resetmovingPointer();
-    for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
-        Header->movingPointer+=i*(*Header->registerSize); // movingPointer points at the beg of register
-        if (Reg->check(Header->movingPointer, conditions, booperands)) {//we found it!
-            Reg->setEmpty(Header->movingPointer);
-            Header->removeRegister();
-        }
-    }//no break; -> check all file
+void RegisterManager::deleteFrom(string tableName, string pColumnName, string pData){
+
+    if (filesystem->deleteData(tableName,pColumnName, pData)){
+        cout << "| -> Table: " << tableName << " created successfully"<<endl;
+    }
+
+//    Header->resetmovingPointer();
+//    for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
+//        Header->movingPointer+=i*(*Header->registerSize); // movingPointer points at the beg of register
+//        if (Reg->check(Header->movingPointer, conditions, booperands)) {//we found it!
+//            Reg->setEmpty(Header->movingPointer);
+//            Header->removeRegister();
+//        }
+//    }//no break; -> check all file
     cout << "|               Deletion Completed                |" << endl;
 }
 
