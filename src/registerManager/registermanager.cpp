@@ -75,28 +75,38 @@ void RegisterManager::select(string tableName, SimpleList<char *>* tableColumns,
 }
 
 void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColumns, SimpleList<char*>* values){
-    Header->resetmovingPointer();
-    cout << *Header->freeRegister;
-    if (*Header->freeRegister > 0) {
-        for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator, looks for a freeRegister
-            Header->movingPointer+=i*(*Header->registerSize); // movingPointer moves to the beg of register
-            if (Reg->getContentValue(Header->movingPointer)==Reg->nullChar) {//we found it!
-                for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
-                    int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
-                    Reg->setData(Header->movingPointer+Col, Col, *values->elementAt(j)->getElement());
-                }
-                Header->addRegister();
-                break;
-            }
-        }
-    } else { //there are no freeRegisters, we proceed to write at the endint
-        for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
-            int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
-            Reg->setData(Header->EndOF+Col, Col, *values->elementAt(j)->getElement());
-        }
-        Header->addRegister();
+    simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
+    simpleToArr<char*>* ARR2 = new simpleToArr<int>();
+    array<char*> newColumnsarr  = ARR1->convertFromSL(tableColumns);
+    array<int*> newValuesArr = ARR2->convertFromSL(values);
+
+    if(filesystem->writeNewLineToFile(tableName , newValuesArr , newColumnsarr)){
+        cout << "|              Insertion successful               |" << endl;
+    }else{
+        cout << "|            Insertion NOT successful             |" << endl;
     }
-    cout << "|              Insertion successful               |" << endl;
+//    Header->resetmovingPointer();
+//    cout << *Header->freeRegister;
+//    if (*Header->freeRegister > 0) {
+//        for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator, looks for a freeRegister
+//            Header->movingPointer+=i*(*Header->registerSize); // movingPointer moves to the beg of register
+//            if (Reg->getContentValue(Header->movingPointer)==Reg->nullChar) {//we found it!
+//                for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
+//                    int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
+//                    Reg->setData(Header->movingPointer+Col, Col, *values->elementAt(j)->getElement());
+//                }
+//                Header->addRegister();
+//                break;
+//            }
+//        }
+//    } else { //there are no freeRegisters, we proceed to write at the endint
+//        for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
+//            int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
+//            Reg->setData(Header->EndOF+Col, Col, *values->elementAt(j)->getElement());
+//        }
+//        Header->addRegister();
+//    }
+//    cout << "|              Insertion successful               |" << endl;
 }
 
 void RegisterManager::update(string tableName, SimpleList<char *>* tableColumns, SimpleList<char *>* values, SimpleList<char *>* conditions, SimpleList<int>* booperands) {
