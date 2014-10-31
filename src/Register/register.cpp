@@ -1,15 +1,26 @@
 #include "register.h"
 #include "src/HeaderManager/headermanager.h"
 #include "ErrorCodes.h"
-
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
 #include <string>
 using namespace std;
 
-Register::Register()
+SimpleList<char*>* ColumnName;
+SimpleList<int>* ColumnSize;
+
+Register::Register(SimpleList<string>* tableColumns, SimpleList<int>* columnSizes)
 {
+    ColumnName = new SimpleList<char*>();
+    ColumnSize = new SimpleList<int>();
+
+    ColumnSize->append(0);
+    for (int i = 0; i<tableColumns->getLenght(); i++) {
+        ColumnName->append((char*)(*tableColumns->elementAt(i)->getElement()).c_str());
+        ColumnSize->append(*columnSizes->elementAt(i)->getElement());
+    }
+
 }
 
 /* Changes the first char to an especific "nullChar" in order to mark the register as empty
@@ -33,31 +44,31 @@ char Register::getContentValue(void* Here) {
  *
  */
 string Register::getData(void* Here, int iColumn) {
-    int beg = ColumnSize<iColumn>;
-    int end = ColumnSize<iColumn+1>;
+    int beg = *ColumnSize->elementAt(iColumn)->getElement();
+    int end = *ColumnSize->elementAt(iColumn+1)->getElement();
     for (beg < end; beg++;) {
         cout << (char*)Here;    //prints chars until '/o' or until the end of the column
     }
 }
 
 void Register::setData(void* Here, int iColumn, string Value) {
-    char* writePoiner = (char *)Here;
-    int beg = ColumnSize<iColumn>;
-    int end = ColumnSize<iColumn+1>;
-    if (Value.size()<(end-beg)) {//check lenght of string
+    const char* writePointer = (char *)Here;
+    int beg = *ColumnSize->elementAt(iColumn)->getElement();
+    int end = *ColumnSize->elementAt(iColumn+1)->getElement();
+    if (Value.length()<(end-beg)) {//check lenght of string
         for (beg <= end; beg++;) {
-            writePoiner += beg;
-            *writePointer = Value;
+            writePointer += beg;
+            writePointer = Value.c_str();
         }
     } else {
         cout << Error004 << endl;
     }
 }
 
-int Register::ColumnNametoColumnSize (string Name) {
+int Register::NametoiSize (string Name) {
     int index = -1;
-    for (int i = 0; i<ColumnName.size(); i++) {
-        if (ColumnName(i)==Name) {
+    for (int i = 0; i<ColumnName->getLenght(); i++) {
+        if (*ColumnName->elementAt(i)->getElement()==Name) {
             index = i;
             break;
         }

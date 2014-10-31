@@ -94,13 +94,14 @@ int main()
          << "|*************************************************|" << endl
          << "| -> ";
 
-    while (true) {
+    bool running = true;
+    while (running) {
         int type=0;
         string line;
         cin >> line;
         //GUI get id
         if (line == "EXIT"){
-            break;
+            running = false;
         } else {
             Decriptor* execute = new Decriptor;
             execute->interpreter(line, type);

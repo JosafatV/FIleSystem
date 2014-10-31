@@ -23,7 +23,7 @@ HeaderManager::HeaderManager(int regSize)
         BOF = buffer+headerSize;
         EndOF = buffer+headerSize;
         movingPointer = buffer+headerSize;
-        *registerSize = 0;                         //not yet defined this is only a header template
+        *registerSize = regSize;
         *fullRegister = 0;
         *freeRegister = 0;
     }

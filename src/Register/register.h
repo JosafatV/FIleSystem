@@ -1,28 +1,31 @@
 #ifndef REGISTER_H
 #define REGISTER_H
+#include <string>
+#include "src/dataStructures/SimpleList.h"
+using namespace std;
 
 class Register
 {
 public:
-    Register();
+    Register(SimpleList<string>* tableColumns, SimpleList<int>* columnsizes);
 
     /*!
      * \brief ColumnName is a simple list with the name of the columns
      * This global variable helps the program traducing the strings that the user inputs into integers that are more manageable
      */
-    //SimpleList ColumnName = new SimpleList ();
+    SimpleList<char*>* ColumnName = new SimpleList<char*> ();
 
     /*!
      * \brief ColumnSize is a simple list with the values of the size of columns
      * This global variable always starts on 0 and helps the program manage the movingPointer position "in the X coordinate" (Y being the registers), in order to get individual sets of data
      */
-   // SimpleList ColumnSize = new SimpleList ();
+    SimpleList<int>* ColumnSize = new SimpleList<int>  ();
 
     /*!
      * \brief nullChar marks a register as empty
      * This char is especially chosen by the project to be a mark at the beggining of the register (or column) to mark it as empty, it doesn't allow the first value to be removed
      */
-    char nullChar = '/o';
+    char nullChar = '*';
 
     /*!
      * \brief setEmpty writes a nullChar here, it sets the Register space as empty
@@ -47,11 +50,11 @@ public:
     void setData(void* Here, int iColumn, string Value);
 
     /*!
-     * \brief ColumnNametoColumnSize converts the name of a column to the index of it's respective matrix
+     * \brief NametoiSize converts the name of a column to the index of it's respective matrix
      * \param Name name of the column
      * \return the index (int)
      */
-    int ColumnNametoColumnSize (string Name);
+    int NametoiSize (string Name);
 
     /*!
      * \brief getContentValue checks if a register is empty

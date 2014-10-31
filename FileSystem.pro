@@ -17,4 +17,4 @@ HEADERS += \
     ErrorCodes.h \
     src/Register/register.h \
     src/registerManager/registermanager.h \
-    src/stringProcessor/decriptor.h
+    src/stringProcessor/decript.h

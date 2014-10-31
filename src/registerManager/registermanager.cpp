@@ -7,82 +7,79 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+
+
 using namespace std;
 
-RegisterManager::RegisterManager () {
-git add-
-}
+HeaderManager* Header;
+Register* Reg;
 
-void RegisterManager::createTable(string tableName, SimpleList tableColumns, SimpleList columnsize, int regSize) {
+RegisterManager::RegisterManager (string tableName, SimpleList<char *> *tableColumns, SimpleList<int>* columnsize, int regSize) {
     //table creation
-    HeaderManager Header = new HeaderManager(regSize);
-    int spaces = tableName.length();
+    Header = new HeaderManager(regSize);
+    Reg = new Register(tableColumns, columnsize);
     cout << "| -> Table: " << tableName << " created successfully";
-    for (int i = 0; i<spaces; i++) {
-        cout << " ";
-    }
-    cout << endl;
 }
 
-void RegisterManager::select(string tableName, SimpleList tableColumns, SimpleList Conditions, SimpleList Booperands){
+void RegisterManager::select(string tableName, SimpleList<string*>* tableColumns, SimpleList<string*>* Conditions, SimpleList<int>* Booperands){
     //table selection
-    HeaderManager.resetmovingPointer();
-    int totalRegisters = HeaderManager.totalRegister();
+    Header->resetmovingPointer();
+    int totalRegisters = Header->totalRegister();
     for (int i = 0; i<=totalRegisters; i++) {
         if (checkCondition(Conditions, Booperands)) {  //checks if any condition set by the user apply in register(i)
-            for (int i = 0; i<tableColumns.size(); i++) {
-                cout << Register.getData(Register.ColumnNametoColumnSize(tableColumns(i))) << " - ";
+            for (int i = 0; i<tableColumns.getLenght(); i++) {
+                cout << Reg->getData(movingPointer, Reg->NametoiSize(tableColumns->elementAt(i)->getElement())) << " - ";
             }
             cout << endl;
         }
     }
 }
 
-void RegisterManager::insertInto(string tableName, SimpleList tableColumns, SimpleList values){
+void RegisterManager::insertInto(string tableName, SimpleList<string*>* tableColumns, SimpleList<string*>* values){
     //table selection
     int i = 0;
-    for (int j = 0; j<tableColumns.length(); j++) {
-        if (*(HeaderManager.freeRegister) > 0) {
-            HeaderManager.resetmovingPointer();
-            while (Register.getContentValue((HeaderManager.movingPointer)+i) == nullChar) {       // conseguir el registro vacio (first char == nullChar --> empty)
-                i+=HeaderManager.registerSize;
+    for (int j = 0; j<tableColumns->getLenght(); j++) {
+        if (*(Header->freeRegister) > 0) {
+            Header->resetmovingPointer();
+            while (Register.getContentValue((Header->movingPointer)+i) == Register->nullChar) {       // conseguir el registro vacio (first char == nullChar --> empty)
+                i+=Header->registerSize;
             }
-            Register::setData(movingPointer, Register.ColumnNametoColumnSize(tableColumns<j>), value(Register.ColumnNametoColumnSize(tableColumns<j>)));
-            HeaderManager.addRegister();
+            Register::setData(movingPointer, Reg->NametoiSize(tableColumns.elementAt(j)->getElement()), value(Reg->NametoiSize(tableColumns.elementAt(j)->getElement())));
+            Header->addRegister();
         } else {
-            Register::setData(movingPointer, Register.ColumnNametoColumnSize(tableColumns<j>), value(Register.ColumnNametoColumnSize(tableColumns<j>)));
-            writeHere(HeaderManager.EOF);
-            HeaderManager.addRegister();
+            Register::setData(movingPointer, Reg->NametoiSize(tableColumns.elementAt(j)->getElement()), value(Reg->NametoiSize(tableColumns.elementAt(j)->getElement())));
+            writeHere(Header->EOF);
+            Header->addRegister();
         }
     }
     cout << "|              Insertion successful               |" << endl;
 }
 
-void RegisterManager::update(string tableName, SimpleList tableColumns, SimpleList values, SimpleList conditions, SimpleList Boopeands) {
+void RegisterManager::update(string tableName, SimpleList<string*>* tableColumns, SimpleList<string*>* values, SimpleList<string*>* conditions, SimpleList<int>* booperands) {
     //table selection
-    HeaderManager.resetmovingPointer();
+    Header->resetmovingPointer();
     if (conditions.size()==0) {
         for (int i = 0; i<=totalRegisters; i++) {
-            Register.setData(Register.ColumnNametoColumnSize(tableColumns(i)), values(i));
+            Reg->setData(Reg->NametoiSize(tableColumns.elementAt(i)->getElement()), values(i));
         }
     } else {
         for (int i = 0; i<=totalRegisters; i++) {
             if (checkCondition(Conditions, Booperands)) {
-                Register.setData(Register.ColumnNametoColumnSize(tableColumns(i)), values(i));
+                Reg->setData(Reg.Reg->NametoiSize(tableColumns.elementAt(i)->getElement()), values(i));
             }
         }
     }
     cout << "|               Update successful                 |" << endl;
 }
 
-void RegisterManager::deleteFrom(string tableName, SimpleList Conditions, SimpleList Booperands){
+void RegisterManager::deleteFrom(string tableName, SimpleList<string*>* conditions, SimpleList<int>* booperands){
     //table selection
-    HeaderManager.resetmovingPointer();
-    int totalRegisters = HeaderManager.totalRegister();
+    Header->resetmovingPointer();
+    int totalRegisters = Header->totalRegister();
     for (int i = 0; i<=totalRegisters; i++) {
         if (checkCondition(Conditions, Booperands)) {  //~checks if any condition set by the user apply in register(i)
-            Register.setEmpty((HeaderManager.movingPointer)+i*HeaderManager.registerSize);
-            HeaderManager.removeRegister();  //manages multiple eliminations from EOF
+            Reg->setEmpty((Header->movingPointer)+i*Header->registerSize);
+            Header->removeRegister();  //manages multiple eliminations from EOF
         }
     }
     cout << "|               Deletion Completed                |" << endl;
@@ -90,13 +87,13 @@ void RegisterManager::deleteFrom(string tableName, SimpleList Conditions, Simple
 
 /*///////////////////////////////////////////////////*/
 
-void RegisterManager::createIndexOn(string tableName, string column, string type){
+void RegisterManager::createIndexOn(string tableName, SimpleList<string*>* column, string type){
     //table selection
-    int iColumn = Register.ColumnNametoColumnSize(column);
-    for (int i = 0; i<HeaderManager.registerSize; i++){
-        BinaryTree.start(type);
-        BinaryTree.add(Register.getData(iColumn));
-    }
+//    int iColumn = Reg.ColumnNametoColumnSize(column);
+//    for (int i = 0; i<Header.registerSize; i++){
+//        //BinaryTree.start(type);
+//        //BinaryTree.add(Register.getData(iColumn));
+//    }
 }
 
 void RegisterManager::compressTable(string tableName) {
@@ -108,12 +105,12 @@ void RegisterManager::compressTable(string tableName) {
 
 void RegisterManager::backupTable(string tableName){
     //table selection
-    HeaderManager.saveHeader(tableName);
+    Header->saveHeader();
     cout << "|                Backup Completed                 |" << endl;
 }
 
-void RegisterManager::restoreTable(string tableName){
+void RegisterManager::restoreTable(string tableName) {
     //table selection
-    HeaderManager.loadHeader(tableName);
+    Header->loadHeader();
     cout << "|          Table Restored Successfully            |" << endl;
 }

@@ -6,13 +6,17 @@
 #include <fstream>
 using namespace std;
 
+string tableName;
+SimpleList<string>* values;
+SimpleList<string>* columns;
+SimpleList<string>* conditions;
+SimpleList<int>* booperands;
+
 Decriptor::Decriptor() {
-    string tableName;
-    SimpleList tablecolumns = SimpleList();
-    SimpleList columnsize = SimpleList();
-    SimpleList values = SimpleList();
-    SimpleList conditions = SimpleList();
-    SimpleList booperands = SimpleList();
+    tableName;
+    values = SimpleList();
+    conditions = SimpleList();
+    booperands = SimpleList<int>();
 }
 
 void Decriptor::emptyVariables() {
@@ -24,17 +28,9 @@ void Decriptor::emptyVariables() {
 }
 
 string Decriptor::getName(string description) {
-
-    string tableName;
-
     int cut1 = description.find_first_of(' ');
-
     tableName = description.substr(0, cut1);
     description = description.substr(cut1, description.length());
-
-    cout << "| -> " << tableName << endl;
-    //cout << description << endl;
-
     return description;
 }
 
@@ -44,14 +40,12 @@ string Decriptor::getColumns(bool simpleCol, string description) {
     string temp = description.substr(cut1+1, cut2); //last parameter is from cut1 to cut2 not from 0 to cut2 - ")"
     string column;
     temp = temp.substr(0, temp.find(')'));
-    cout << "| ->";
     if (simpleCol) {
         while (temp.length()>1) {
             cut1 = temp.find(',');
             column = temp.substr(0, cut1);
             temp = temp.substr(cut1+1, temp.length()); //cut1+1 removes ","
-            //columns.append(columns);
-            cout << column << " - ";
+            columns.append(column);
         }
     } else {
         string value;
@@ -62,7 +56,8 @@ string Decriptor::getColumns(bool simpleCol, string description) {
             cut1 = temp.find('>');
             value = temp.substr(0, cut1);
             temp = temp.substr(temp.find(',')+1, temp.length());
-            cout << column << "/" << value << " - ";
+            columns->append(column);
+            values->append(value);
         }
     }
    description = description.substr(cut2+1, description.length());
@@ -76,14 +71,12 @@ string Decriptor::getValues(string description) {
     string temp = description.substr(cut1+1, cut2);
     string value;
     temp = temp.substr(0, temp.find(')'));
-   //SimpleList values = new SimpleList();
-   //cout << "| -> " << temp << endl;
     cout << "| -> ";
     while (temp.length()>1) {
         cut1 = temp.find(',');
         value = temp.substr(0, cut1);
         temp = temp.substr(cut1+1, temp.length()); //cut1+1 removes ","
-        //values.append();
+        values.append();
         cout << value << " - ";
     }
         cout << temp;
@@ -122,37 +115,37 @@ string Decriptor::getExpression (string temp) {
 
    if (operand==">") {
        operation="0"+value;
-       //conditions.append(operation);
+       conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand==">="){
        operation="1"+value;
-       //conditions.append(operation);
+       conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand=="<"){
        operation="2"+value;
-       //conditions.append(operation);
+       conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand=="<="){
        operation="3"+value;
-       //conditions.append(operation);
+       conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand=="="){
        operation="4"+value;
-       //conditions.append(operation);
+       conditions.append(operation);
        cout << operation;
        flag = false;
    }
    if (operand=="<>"){
        operation="5"+value;
-       //conditions.append(operation);
+       conditions.append(operation);
        cout << operation;
        flag = false;
    }
@@ -164,9 +157,6 @@ string Decriptor::getExpression (string temp) {
 }
 
 string Decriptor::getConditions(string description) {
-   //SimpleList toGetValue = new SimpleList();
-   //SimpleList conditions = new SimpleList();
-   //SimpleList booperands = new SimpleList();
    int cut1 = description.find('(');
    int cut2 = description.find(')');
    string temp = description.substr(cut1+1, cut2);
@@ -209,11 +199,10 @@ string Decriptor::getConditions(string description) {
 
 
 void Decriptor::interpreter (string Line, int id) {
-
    string command;
    string description;
-   string tableName;
    int cut = Line.find_first_of(':');
+   RegisterManager* Manager;
 
    command = Line.substr(0, cut);
    description = Line.substr(cut+2, Line.length());
@@ -230,7 +219,7 @@ void Decriptor::interpreter (string Line, int id) {
        for (int i = 0; i<values.lenght(); i++){
           regSize += (int)(values.elementAt(i));
        }
-       //RegisterManager.createTable(tableName, columns, values, regSize);
+       Manager = new RegisterManager(tableName, columns, values, regSize);
    }
    if (0==command.compare("SELECT")) {
        if (id == 0) {
@@ -255,7 +244,7 @@ void Decriptor::interpreter (string Line, int id) {
            description = getConditions(description);
            cout << "| -> " << tableName << endl;
        }
-       //RegisterManager.select(tableName, columns, conditions);
+       //Manager.select(tableName, columns, conditions);
        flag = false;
    }
    if (0==command.compare("INSERT INTO")) {
@@ -263,7 +252,7 @@ void Decriptor::interpreter (string Line, int id) {
        description = getColumns(true, description);
        description = getValues(description);
        flag = false;
-       //RegisterManager.insertInto(tableName, columns, values);
+       Manager.insertInto(tableName, columns, values);
    }
    if (0==command.compare("UPDATE")) {
        description = getName(description);
@@ -271,13 +260,13 @@ void Decriptor::interpreter (string Line, int id) {
        description = getValues(description);
        description = getConditions(description);
        flag = false;
-       //RegisterManager.select(tableName, columns, conditions, booperands);
+       Manager.select(tableName, columns, conditions, booperands);
    }
    if (0==command.compare("DELETE FROM")) {
        description = getName(description);
        description = getConditions(description);
        flag = false;
-       //RegisterManager.deleteFrom(tableName, conditions, booperands);
+       Manager.deleteFrom(tableName, conditions, booperands);
    }
    if (0==command.compare("CREATE INDEX ON")) {
        description = getName(description);
@@ -285,22 +274,22 @@ void Decriptor::interpreter (string Line, int id) {
        string type = description.substr(description.find_last_of(' ')+1, description.length());
        cout  << "| -> Of the type: " << type << endl;
        flag = false;
-       //RegisterManager.createIndexOn(tableName, columns, type);
+       Manager.createIndexOn(tableName, columns, type);
    }
    if (0==command.compare("COMPRESS TABLE")) {
        description = getName(description);
        flag = false;
-       //RegisterManager.compressTable(tableName)
+       Manager.compressTable(tableName);
    }
    if (0==command.compare("BACKUP TABLE")) {
        description = getName(description);
        flag = false;
-       //RegisterManager.backupTable(tableName)
+       Manager.backupTable(tableName);
    }
    if (0==command.compare("RESTORE TABLE")) {
        description = getName(description);
        flag = false;
-       //RegisterManager.restoreTable(tableName)
+       Manager.restoreTable(tableName);
    } if (flag) {
        cout << Error001 << endl;
    }
