@@ -25,65 +25,71 @@ void Decriptor::emptyVariables() {
 
 string Decriptor::getName(string description) {
 
-   string tableName;
+    string tableName;
 
-   int cut1 = description.find_first_of(' ');
+    int cut1 = description.find_first_of(' ');
 
-   tableName = description.substr(0, cut1);
-   description = description.substr(cut1, description.length());
+    tableName = description.substr(0, cut1);
+    description = description.substr(cut1, description.length());
 
-   cout << tableName << endl;
-   //cout << description << endl;
+    cout << "| -> " << tableName << endl;
+    //cout << description << endl;
 
-   return description;
+    return description;
 }
 
 string Decriptor::getColumns(bool simpleCol, string description) {
-   int cut1 = description.find('(');
-   int cut2 = description.find(')');
-   string temp = description.substr(cut1+1, cut2); //last parameter is from cut1 to cut2 not from 0 to cut2 - ")"
-   string column;
-   //cout << "| -> " << temp << endl;
-   if (simpleCol) {
-       while (temp.length()>1) {
-           cut1 = temp.find(',');
-           column = temp.substr(0, cut1);
-           temp = temp.substr(cut1+1, temp.length()); //cut1+1 removes ","
-           cout << column << " - ";
-       }
-   } else {
-       string value;
-       while (temp.length()>1) {
-           cut1 = temp.find('<');
-           column = temp.substr(0, cut1);
-           value = temp.substr(cut1+1, temp.find('>')); //cut1+1 removes "<"
-           temp = temp.substr(temp.find(',')+1, temp.length());
-           cout << column << "/" << value << " - ";
-       }
-   }
+    int cut1 = description.find_first_of('(');
+    int cut2 = description.find_first_of(')');
+    string temp = description.substr(cut1+1, cut2); //last parameter is from cut1 to cut2 not from 0 to cut2 - ")"
+    string column;
+    temp = temp.substr(0, temp.find(')'));
+    cout << "| ->";
+    if (simpleCol) {
+        while (temp.length()>1) {
+            cut1 = temp.find(',');
+            column = temp.substr(0, cut1);
+            temp = temp.substr(cut1+1, temp.length()); //cut1+1 removes ","
+            //columns.append(columns);
+            cout << column << " - ";
+        }
+    } else {
+        string value;
+        while (temp.length()>1) {
+            cut1 = temp.find('<');
+            column = temp.substr(0, cut1);
+            temp = temp.substr(cut1+1, temp.length());
+            cut1 = temp.find('>');
+            value = temp.substr(0, cut1);
+            temp = temp.substr(temp.find(',')+1, temp.length());
+            cout << column << "/" << value << " - ";
+        }
+    }
    description = description.substr(cut2+1, description.length());
    cout << endl;
    return description;
 }
 
 string Decriptor::getValues(string description) {
-   int cut1 = description.find('(');
-   int cut2 = description.find(')');
-   string temp = description.substr(cut1+1, cut2-cut1-1); //last parameter is from cut1 to cut2 not from 0 to cut2 - ")"
-   string value;
+    int cut1 = description.find('(');
+    int cut2 = description.find(')');
+    string temp = description.substr(cut1+1, cut2);
+    string value;
+    temp = temp.substr(0, temp.find(')'));
    //SimpleList values = new SimpleList();
    //cout << "| -> " << temp << endl;
-   cout << "| -> ";
-   while (temp.length()>1) {
-       cut1 = temp.find(',');
-       value = temp.substr(0, cut1);
-       temp = temp.substr(cut1+1, temp.length()); //cut1+1 removes ","
-       //values.append();
-       cout << value << " - ";
-   }
-   description = description.substr(cut2+1, description.length());
-   cout << endl;
-   return description;
+    cout << "| -> ";
+    while (temp.length()>1) {
+        cut1 = temp.find(',');
+        value = temp.substr(0, cut1);
+        temp = temp.substr(cut1+1, temp.length()); //cut1+1 removes ","
+        //values.append();
+        cout << value << " - ";
+    }
+        cout << temp;
+    description = description.substr(cut2+1, description.length());
+    cout << endl;
+    return description;
 }
 
 string Decriptor::getExpression (string temp) {
@@ -220,31 +226,34 @@ void Decriptor::interpreter (string Line, int id) {
        description = getName(description);
        description = getColumns(false, description);
        flag = false;
-       //split columns
-       //get regSize
+       int regSize = 0;
+       for (int i = 0; i<values.lenght(); i++){
+          regSize += (int)(values.elementAt(i));
+       }
        //RegisterManager.createTable(tableName, columns, values, regSize);
    }
    if (0==command.compare("SELECT")) {
        if (id == 0) {
            cut = description.find_last_of(' ');
            tableName = description.substr(cut, description.length());
-           cout << tableName << endl;
-           cout << "| -> " << "all columns" << endl;
-           //set columns = tableColumns
+           cout << "| -> " << tableName << endl;
+           cout << "| -> " << " * " << endl;
        }
        if (id == 1) {
            description = getColumns(true, description);
            cut = description.find_last_of(' ');
            tableName = description.substr(cut, description.length());
-           cout << tableName;
+           cout << "| -> " << tableName << endl;
        }
        if (id == 2) {
            description = getColumns(true, description);
+           description = description.substr(description.find('M')+2, description.length());
            cut = description.find(' ');
-           tableName = description.substr(cut, description.find_first_of(' ', cut+1));
-           description = description.substr(description.find_last_of('('), description.find_last_of(')'));
+           tableName = description.substr(0, cut);
+           description = description.substr(cut+1, description.length());
+           description = description.substr(description.find('R')+3, description.length());
            description = getConditions(description);
-           cout << tableName;
+           cout << "| -> " << tableName << endl;
        }
        //RegisterManager.select(tableName, columns, conditions);
        flag = false;
@@ -273,8 +282,8 @@ void Decriptor::interpreter (string Line, int id) {
    if (0==command.compare("CREATE INDEX ON")) {
        description = getName(description);
        description = getColumns(true, description);
-       string type = description.substr(description.find_last_of(' '), description.length());
-       cout  << "| -> Of the type: " << type;
+       string type = description.substr(description.find_last_of(' ')+1, description.length());
+       cout  << "| -> Of the type: " << type << endl;
        flag = false;
        //RegisterManager.createIndexOn(tableName, columns, type);
    }

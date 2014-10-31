@@ -10,7 +10,7 @@
 using namespace std;
 
 RegisterManager::RegisterManager () {
-
+git add-
 }
 
 void RegisterManager::createTable(string tableName, SimpleList tableColumns, SimpleList columnsize, int regSize) {
