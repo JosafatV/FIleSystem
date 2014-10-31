@@ -58,7 +58,7 @@ public:
      * \param conditions - a special list that holds the value of the comparator and the value to which the entry will be compared to
      * \param booperands - a list with the boolean operands for the comparison
      */
-    void update(string tableName, SimpleList<char *> *tableColumns, SimpleList<char *> *values, SimpleList<char *> *conditions, SimpleList<int>* booperands);
+    void update(string tableName, SimpleList<char *> *tableColumns, SimpleList<char *> *values);
 
     /*!
      * \brief RegisterManager::deleteFrom - deletes entire registers if they fulfil the conditions

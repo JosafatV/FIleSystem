@@ -24,7 +24,7 @@ public:
     bool deleteData ( string pFilename , string pColumnName , string pData);
     bool backupExists(string pBackUp);
     bool updateColumn(string newData,string pToCompare, string pFile, string pCName);
-
+    bool createIndexOn(string tableName, array<char *> *column, string type);
 private:
 //    array<char*> _FilesMetaData;
     bool fileExists(string pFile);

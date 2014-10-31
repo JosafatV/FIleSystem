@@ -168,3 +168,7 @@ bool FSQLServerFileSystem::updateColumn(string newData,string pToCompare, string
         return false;
     }
 }
+
+bool createIndexOn(string tableName, array<char *> *column, string type){
+
+}

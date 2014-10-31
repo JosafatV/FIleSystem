@@ -76,9 +76,9 @@ void RegisterManager::select(string tableName, SimpleList<char *>* tableColumns,
 
 void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColumns, SimpleList<char*>* values){
     simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
-    simpleToArr<char*>* ARR2 = new simpleToArr<int>();
+    simpleToArr<char*>* ARR2 = new simpleToArr<char*>();
     array<char*> newColumnsarr  = ARR1->convertFromSL(tableColumns);
-    array<int*> newValuesArr = ARR2->convertFromSL(values);
+    array<char*> newValuesArr = ARR2->convertFromSL(values);
 
     if(filesystem->writeNewLineToFile(tableName , newValuesArr , newColumnsarr)){
         cout << "|              Insertion successful               |" << endl;
@@ -109,21 +109,31 @@ void RegisterManager::insertInto(string tableName, SimpleList<char*>* tableColum
 //    cout << "|              Insertion successful               |" << endl;
 }
 
-void RegisterManager::update(string tableName, SimpleList<char *>* tableColumns, SimpleList<char *>* values, SimpleList<char *>* conditions, SimpleList<int>* booperands) {
-    Header->resetmovingPointer();
-        for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
-            Header->movingPointer+=i*(*Header->registerSize); // movingPointer points at the beg of register
-            if (Reg->check(Header->movingPointer, conditions, booperands)) {//we found it!
-                for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
-                    int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
-                    Reg->setData(Header->movingPointer+Col, Col, *values->elementAt(j)->getElement());
-                }
-            }
-        }//no break; -> check all file
-    cout << "|               Update successful                 |" << endl;
+void RegisterManager::update(string tableName, SimpleList<char *>* tableColumns, SimpleList<char *>* values) {
+
+//    simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
+//    simpleToArr<char*>* ARR2 = new simpleToArr<char*>();
+//    array<char*> newColumnsarr  = ARR1->convertFromSL(tableColumns);
+//    array<char*> newValuesArr = ARR2->convertFromSL(values);
+//    for(int i = 0 ; i < newColumnsarr.getLenght() ;i++){
+//            filesystem->updateColumn()
+//    }
+
+//'    Header->resetmovingPointer();
+//        for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
+//            Header->movingPointer+=i*(*Header->registerSize); // movingPointer points at the beg of register
+//            if (Reg->check(Header->movingPointer, conditions, booperands)) {//we found it!
+//                for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
+//                    int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
+//                    Reg->setData(Header->movingPointer+Col, Col, *values->elementAt(j)->getElement());
+//                }
+//            }
+//        }//no break; -> check all file
+//    cout << "|               Update successful                 |" << endl;'
 }
 
 void RegisterManager::deleteFrom(string tableName, SimpleList<char *> *conditions, SimpleList<int>* booperands){
+
     Header->resetmovingPointer();
     for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
         Header->movingPointer+=i*(*Header->registerSize); // movingPointer points at the beg of register
@@ -138,6 +148,11 @@ void RegisterManager::deleteFrom(string tableName, SimpleList<char *> *condition
 /*///////////////////////////////////////////////////*/
 
 void RegisterManager::createIndexOn(string tableName, SimpleList<char *>* column, string type){
+    simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
+    array<char*> newColumnsarr  = ARR1->convertFromSL(column);
+
+    filesystem->createIndexOn(tablename , newColumnsarr , type);
+
 //    Header->resetmovingPointer();
 //    SimpleList<char *> Nodes = SimpleList<char*>();
 //    int Col = Reg->NametoiSize(column->elementAt(0)->getElement());
@@ -160,11 +175,13 @@ void RegisterManager::compressTable(string tableName) {
 void RegisterManager::backupTable(string tableName){
     //table selection
     //Header->saveHeader();
+    filesystem->backUpFile(tableName);
     cout << "|                Backup Completed                 |" << endl;
 }
 
 void RegisterManager::restoreTable(string tableName) {
     //table selection
     //Header->loadHeader();
+    filesystem->restoreFile(tableName);
     cout << "|          Table Restored Successfully            |" << endl;
 }
