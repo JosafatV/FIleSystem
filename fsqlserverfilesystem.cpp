@@ -58,15 +58,17 @@ bool FSQLServerFileSystem::removeFile(string pFileName){
     return true;
 }
 
-array<char*> FSQLServerFileSystem::readFromFile(string pFileName , int pColumn,
+array<char*> FSQLServerFileSystem::readFromFile(string pFileName , string pColumnName,
                                         int pRow){
 
     array<char*> columnData;
 
-    if (pRow < _C->ZE_ROW || pColumn <_C->ZE_ROW ){
+    if (pRow < _C->ZE_ROW ){
         cout << " Eres un bolonio. Invalid values." << endl;
         return columnData;
     }
+
+    int pColumn = RF->getColumnNumber(pFileName,pColumnName);
 
     if (fileExists(pFileName)){
         //If column is zero then the user means to read a whole registry

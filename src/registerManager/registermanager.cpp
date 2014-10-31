@@ -58,19 +58,30 @@ void RegisterManager::select(string tableName, SimpleList<char *>* tableColumns)
     cout << "|-------------------------------------------------|" << endl;
 }
 
-void RegisterManager::select(string tableName, SimpleList<char *>* tableColumns, SimpleList<char *>* Conditions, SimpleList<int>* Booperands){
-    Header->resetmovingPointer();
-    for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
-        Header->movingPointer +=i*(*Header->registerSize); // movingPointer points at the beg of register
-        if (Reg->getContentValue(Header->movingPointer) != Reg->nullChar && Reg->check(Header->movingPointer, Conditions, Booperands)) { //it's not empty and fulfils the conditions!
-            cout << "| ";
-            for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
-                int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
-                cout << Reg->getData(Header->movingPointer+Col, Col) << " | ";
-            }
-            cout << endl; //end of reg
+void RegisterManager::select(string tableName, string columnName, SimpleList<char *>* Conditions, SimpleList<int>* Booperands){
+
+    simpleToArr<char*>* ARR1 = new simpleToArr<char*>();
+
+    array<char*> Names = ARR1->convertFromSL(tableColumns);
+
+    if (filesystem->readFromFile(tableName, columnName, 0)){
+        for (int i = 0 ; i < field.getLenght() ; i++){
+                cout << field[i] << " ";
         }
-    }//no break; -> check all file
+    }
+
+//    Header->resetmovingPointer();
+//    for (int i = 0; i<Header->totalRegister(); i++){ //general register iterator
+//        Header->movingPointer +=i*(*Header->registerSize); // movingPointer points at the beg of register
+//        if (Reg->getContentValue(Header->movingPointer) != Reg->nullChar && Reg->check(Header->movingPointer, Conditions, Booperands)) { //it's not empty and fulfils the conditions!
+//            cout << "| ";
+//            for (int j; j<tableColumns->getLenght(); j++) { //general column iterator, writes all data
+//                int Col = Reg->NametoiSize(*tableColumns->elementAt(j)->getElement());
+//                cout << Reg->getData(Header->movingPointer+Col, Col) << " | ";
+//            }
+//            cout << endl; //end of reg
+//        }
+//    }//no break; -> check all file
     cout << "|-------------------------------------------------|" << endl;
 }
 
